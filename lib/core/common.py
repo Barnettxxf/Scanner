@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+import socket
+from urllib import parse
 
 
 def urlsplit(url):
@@ -11,11 +13,20 @@ def urlsplit(url):
     # combine
     urls = []
     for val in param.values():
-        new_url = domain + '?' + _url.replace(val, 'my_Padload')
+        new_url = domain + '?' + _url.replace(val, 'my_Payload')
         urls.append(new_url)
     return urls
+
+
+def gethostbyname(url):
+    domain = parse.urlparse(url)
+    if domain.netloc is None:
+        return None
+    ip = socket.gethostbyname(domain.netloc)
+    return ip
 
 
 if __name__ == '__main__':
     test_url = 'https://www.shiyanlou.com/courses/?a=1&b=2&c=3'
     print(urlsplit(test_url))
+    print(gethostbyname(test_url))

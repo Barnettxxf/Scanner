@@ -8,7 +8,6 @@ payload = []
 filename = os.path.join(sys.path[0], 'data', 'xss.txt')
 f = open(filename)
 for i in f:
-    print(i)
     payload.append(i.strip())
 f.close()
 
@@ -30,6 +29,7 @@ class spider():
                     return False
                 if (_str.find(_payload) != 1):
                     print("xss found:%s" % url)
+                    break
         return False
 
 if __name__ == "__main__":
