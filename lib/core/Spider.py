@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
-from script import sqlcheck
 from lib.core import Downloader, UrlManager
 import threading
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
+from lib.core import plugin
 
 
 class SpiderMain(object):
@@ -47,8 +47,8 @@ class SpiderMain(object):
                 new_url = self.urls.get_new_url()
 
                 # sql check
-                if(sqlcheck.sqlcheck(new_url)):
-                    print("url:%s sqlcheck is valueable" % new_url)
+                #  if(sqlcheck.sqlcheck(new_url)):
+                #  print("url:%s sqlcheck is valueable" % new_url)
 
                 print("craw: " + new_url)
                 t = threading.Thread(target=self.download.download, args=(new_url, _content))
@@ -60,4 +60,7 @@ class SpiderMain(object):
                 if _str is None:
                     continue
                 new_urls = self._parse(new_url, _str['html'])
+                disallow = ['sqlcheck']
+                _plugin = plugin.SpiderPlus("script", disallow)
+                _plugin.work(_str['url'], _str['html'])
                 self.urls.add_new_urls(new_urls)
